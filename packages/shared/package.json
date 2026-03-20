@@ -1,0 +1,29 @@
+{
+  "name": "@openpulse/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared types and constants for OpenPulse",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist .turbo",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/"
+  },
+  "devDependencies": {
+    "@openpulse/config": "workspace:*",
+    "typescript": "^5.7.3"
+  }
+}

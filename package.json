@@ -1,16 +1,33 @@
 {
-  "name": "agentic-retreat",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "openpulse",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OpenPulse - Real-time service outage detection and reporting",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "dev": "turbo run dev --parallel",
+    "clean": "turbo run clean && rm -rf node_modules .turbo",
+    "db:migrate": "pnpm --filter @openpulse/db migrate",
+    "db:seed": "pnpm --filter @openpulse/db seed",
+    "docker:up": "docker compose -f infra/docker-compose.yml -f infra/docker-compose.dev.yml up -d",
+    "docker:down": "docker compose -f infra/docker-compose.yml -f infra/docker-compose.dev.yml down",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yaml,yml}\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "claude-flow": "^3.5.42"
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "eslint": "^9.19.0",
+    "prettier": "^3.4.2",
+    "turbo": "^2.4.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.4"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.0.0"
   }
 }
