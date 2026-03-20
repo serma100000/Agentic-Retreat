@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openpulse-prober
+  namespace: openpulse
+  labels:
+    app: openpulse-prober
+    app.kubernetes.io/name: openpulse-prober
+    app.kubernetes.io/component: prober
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openpulse-prober
+  template:
+    metadata:
+      labels:
+        app: openpulse-prober
+        app.kubernetes.io/name: openpulse-prober
+        app.kubernetes.io/component: prober
+      annotations:
+        openpulse.io/region: "${PROBER_REGION:us-east-1}"
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: prober
+          image: openpulse/prober:latest
+          env:
+            - name: PROBER_REGION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.annotations['openpulse.io/region']
+            - name: KAFKA_BROKERS
+              valueFrom:
+                configMapKeyRef:
+                  name: openpulse-config
+                  key: KAFKA_BROKERS
+            - name: PROBE_INTERVAL_MS
+              value: "30000"
+            - name: PROBE_TIMEOUT_MS
+              value: "10000"
+          envFrom:
+            - configMapRef:
+                name: openpulse-config
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3001
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+---
+# To deploy per-region, create overlays or use Kustomize:
+#
+# kustomize edit set annotation openpulse.io/region:eu-west-1
+# kustomize edit set nameprefix openpulse-prober-eu-west-1-
+#
+# Or use Helm values:
+#   --set region=eu-west-1 --set replicaCount=1

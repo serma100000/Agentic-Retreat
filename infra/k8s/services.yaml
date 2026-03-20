@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: openpulse-api
+  namespace: openpulse
+  labels:
+    app: openpulse-api
+    app.kubernetes.io/name: openpulse-api
+    app.kubernetes.io/component: api
+spec:
+  type: ClusterIP
+  selector:
+    app: openpulse-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openpulse-web
+  namespace: openpulse
+  labels:
+    app: openpulse-web
+    app.kubernetes.io/name: openpulse-web
+    app.kubernetes.io/component: web
+spec:
+  type: ClusterIP
+  selector:
+    app: openpulse-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openpulse-websocket
+  namespace: openpulse
+  labels:
+    app: openpulse-api
+    app.kubernetes.io/name: openpulse-websocket
+    app.kubernetes.io/component: websocket
+spec:
+  type: ClusterIP
+  selector:
+    app: openpulse-api
+  ports:
+    - name: ws
+      port: 80
+      targetPort: http
+      protocol: TCP
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 3600

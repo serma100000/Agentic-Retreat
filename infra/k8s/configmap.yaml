@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openpulse-config
+  namespace: openpulse
+  labels:
+    app.kubernetes.io/name: openpulse
+    app.kubernetes.io/component: config
+data:
+  NODE_ENV: production
+  LOG_LEVEL: info
+  LOG_FORMAT: json
+
+  # API
+  API_PORT: "3000"
+  API_BASE_URL: https://openpulse.example.com
+
+  # Kafka
+  KAFKA_BROKERS: kafka-0.kafka.openpulse.svc.cluster.local:9092,kafka-1.kafka.openpulse.svc.cluster.local:9092,kafka-2.kafka.openpulse.svc.cluster.local:9092
+  KAFKA_CLIENT_ID: openpulse-api
+  KAFKA_CONSUMER_GROUP: openpulse-detection
+
+  # Redis
+  REDIS_HOST: redis.openpulse.svc.cluster.local
+  REDIS_PORT: "6379"
+
+  # ClickHouse
+  CLICKHOUSE_HOST: clickhouse.openpulse.svc.cluster.local
+  CLICKHOUSE_PORT: "8123"
+  CLICKHOUSE_DATABASE: openpulse
+
+  # PostgreSQL
+  POSTGRES_HOST: postgres.openpulse.svc.cluster.local
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: openpulse
+
+  # Detection
+  DETECTION_STATISTICAL_THRESHOLD: "3.0"
+  DETECTION_CUSUM_THRESHOLD: "40"
+  DETECTION_CONSENSUS_MIN_SIGNALS: "2"
+
+  # Rate Limiting
+  RATE_LIMIT_FREE_RPM: "60"
+  RATE_LIMIT_PRO_RPM: "600"
+  RATE_LIMIT_ENTERPRISE_RPM: "6000"
+
+  # Cache
+  CACHE_L1_MAX_SIZE: "1000"
+  CACHE_DEFAULT_TTL_MS: "60000"
+
+  # Probing
+  PROBE_INTERVAL_MS: "30000"
+  PROBE_TIMEOUT_MS: "10000"
+  PROBE_REGIONS: us-east-1,us-west-2,eu-west-1,ap-southeast-1

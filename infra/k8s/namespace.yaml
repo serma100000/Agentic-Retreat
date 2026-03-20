@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openpulse
+  labels:
+    app.kubernetes.io/name: openpulse
+    app.kubernetes.io/part-of: openpulse
