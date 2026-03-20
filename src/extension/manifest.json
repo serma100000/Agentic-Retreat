@@ -1,0 +1,62 @@
+{
+  "manifest_version": 3,
+  "name": "OpenPulse",
+  "version": "1.0.0",
+  "description": "Real-time service outage detection and reporting — powered by OpenPulse",
+  "permissions": [
+    "alarms",
+    "notifications",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://api.openpulse.io/*",
+    "http://localhost:3000/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "options_page": "options/options.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.github.com/*",
+        "*://*.gitlab.com/*",
+        "*://*.bitbucket.org/*",
+        "*://*.aws.amazon.com/*",
+        "*://*.console.cloud.google.com/*",
+        "*://*.portal.azure.com/*",
+        "*://*.vercel.com/*",
+        "*://*.netlify.com/*",
+        "*://*.heroku.com/*",
+        "*://*.cloudflare.com/*",
+        "*://*.stripe.com/*",
+        "*://*.twilio.com/*",
+        "*://*.sendgrid.com/*",
+        "*://*.slack.com/*",
+        "*://*.datadog.com/*",
+        "*://*.sentry.io/*",
+        "*://*.pagerduty.com/*",
+        "*://*.atlassian.net/*",
+        "*://*.npmjs.com/*",
+        "*://*.dockerhub.com/*"
+      ],
+      "js": ["content/content-script.js"],
+      "css": [],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}

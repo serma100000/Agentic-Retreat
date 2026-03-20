@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenPulse</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <img src="../icons/icon-48.png" alt="OpenPulse" class="logo" width="24" height="24" />
+      <h1 class="title">OpenPulse</h1>
+    </div>
+    <button id="settings-btn" class="icon-btn" title="Settings" aria-label="Open settings">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33
+          1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06
+          a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09
+          A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0
+          9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33
+          l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0
+          4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
+  </header>
+
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Filter outages..." aria-label="Filter outages" />
+  </div>
+
+  <main id="outage-list" class="outage-list" role="list">
+    <!-- Populated by popup.ts -->
+  </main>
+
+  <div id="empty-state" class="empty-state" hidden>
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="empty-icon">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+    <p class="empty-title">All systems operational</p>
+    <p class="empty-sub">No active outages for your subscribed services.</p>
+  </div>
+
+  <div id="loading-state" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading outages...</p>
+  </div>
+
+  <div id="error-state" class="error-state" hidden>
+    <p class="error-text" id="error-text">Failed to load outages.</p>
+    <button id="retry-btn" class="btn-retry">Retry</button>
+  </div>
+
+  <footer class="footer">
+    <a href="https://openpulse.io" id="dashboard-link" target="_blank" rel="noopener">
+      View Dashboard
+    </a>
+  </footer>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

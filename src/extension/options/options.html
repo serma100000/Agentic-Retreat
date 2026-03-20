@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenPulse - Settings</title>
+  <style>
+    :root {
+      --op-bg: #ffffff;
+      --op-bg-secondary: #f9fafb;
+      --op-text: #111827;
+      --op-text-secondary: #6b7280;
+      --op-border: #e5e7eb;
+      --op-primary: #6366f1;
+      --op-primary-hover: #4f46e5;
+      --op-success: #10b981;
+      --op-danger: #dc2626;
+      --op-radius: 8px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --op-bg: #1f2937;
+        --op-bg-secondary: #111827;
+        --op-text: #f9fafb;
+        --op-text-secondary: #9ca3af;
+        --op-border: #374151;
+      }
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      color: var(--op-text);
+      background: var(--op-bg-secondary);
+      padding: 24px;
+    }
+    .container {
+      max-width: 540px;
+      margin: 0 auto;
+      background: var(--op-bg);
+      border-radius: var(--op-radius);
+      border: 1px solid var(--op-border);
+      padding: 24px;
+    }
+    h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--op-primary);
+      margin-bottom: 20px;
+    }
+    .section {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--op-border);
+    }
+    .section:last-of-type { border-bottom: none; }
+    .section h2 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--op-text-secondary);
+      margin-bottom: 4px;
+    }
+    input[type="text"], input[type="url"], input[type="password"], select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--op-border);
+      border-radius: 6px;
+      background: var(--op-bg);
+      color: var(--op-text);
+      font-size: 13px;
+      margin-bottom: 12px;
+      outline: none;
+    }
+    input:focus, select:focus { border-color: var(--op-primary); }
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .toggle-row label { margin-bottom: 0; font-size: 13px; color: var(--op-text); }
+    .toggle {
+      position: relative;
+      width: 40px;
+      height: 22px;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle .slider {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--op-border);
+      border-radius: 11px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle .slider::before {
+      content: '';
+      position: absolute;
+      top: 2px; left: 2px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: white;
+      transition: transform 0.2s;
+    }
+    .toggle input:checked + .slider { background: var(--op-primary); }
+    .toggle input:checked + .slider::before { transform: translateX(18px); }
+    .service-list {
+      list-style: none;
+      margin-bottom: 12px;
+    }
+    .service-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      border: 1px solid var(--op-border);
+      border-radius: 6px;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+    .service-list .remove-btn {
+      background: none;
+      border: none;
+      color: var(--op-danger);
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+    }
+    .add-row {
+      display: flex;
+      gap: 8px;
+    }
+    .add-row input { margin-bottom: 0; flex: 1; }
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-primary {
+      background: var(--op-primary);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--op-primary-hover); }
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+    .toast {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      padding: 10px 16px;
+      background: var(--op-success);
+      color: #fff;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>OpenPulse Settings</h1>
+
+    <div class="section">
+      <h2>API Configuration</h2>
+      <label for="api-url">API URL</label>
+      <input type="url" id="api-url" placeholder="https://api.openpulse.io" />
+      <label for="api-key">API Key</label>
+      <input type="password" id="api-key" placeholder="Enter your API key" />
+    </div>
+
+    <div class="section">
+      <h2>Subscribed Services</h2>
+      <ul id="service-list" class="service-list"></ul>
+      <div class="add-row">
+        <input type="text" id="add-slug" placeholder="Service slug (e.g. github)" />
+        <input type="text" id="add-name" placeholder="Name" />
+        <input type="text" id="add-domain" placeholder="Domain" />
+        <button id="add-service-btn" class="btn btn-primary btn-sm">Add</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Preferences</h2>
+      <div class="toggle-row">
+        <label for="notifications-toggle">Desktop notifications</label>
+        <div class="toggle">
+          <input type="checkbox" id="notifications-toggle" />
+          <span class="slider"></span>
+        </div>
+      </div>
+      <div class="toggle-row">
+        <label for="banner-toggle">Inline page banners</label>
+        <div class="toggle">
+          <input type="checkbox" id="banner-toggle" />
+          <span class="slider"></span>
+        </div>
+      </div>
+      <label for="theme-select">Theme</label>
+      <select id="theme-select">
+        <option value="system">System</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </div>
+
+    <button id="save-btn" class="btn btn-primary">Save Settings</button>
+  </div>
+
+  <div id="toast" class="toast">Settings saved</div>
+
+  <script src="options.js" type="module"></script>
+</body>
+</html>
